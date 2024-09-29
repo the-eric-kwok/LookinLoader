@@ -20,8 +20,12 @@
         NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
 
         // Skip loading the tweak if the current process is SpringBoard
-        if ([bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
-            NSLog(@"LookinLoader(%@): Skipping for SpringBoard", bundleIdentifier);
+        NSArray *skippingBundleIdentifiers = @[
+            @"com.apple.springboard", // SpringBoard
+            @"ch.xxtou.hudapp", // TrollSpeed 网速显示 HUD
+        ];
+        if ([skippingBundleIdentifiers containsObject:bundleIdentifier]) {
+            NSLog(@"LookinLoader(%@): Skiped", bundleIdentifier);
             return;
         }
 
