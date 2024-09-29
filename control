@@ -1,4 +1,4 @@
-Package: com.x.lookinloader
+Package: com.erickwok.lookinloader
 Name: LookinLoader
 Depends: mobilesubstrate, preferenceloader
 Version: 1.0

@@ -10,24 +10,37 @@
 #include <dlfcn.h>
 
 %ctor {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    //NSDictionary *prefs = [[NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.x.lookinloader.plist"] retain];
-    NSString *libraryPath = @"/private/preboot/E9CC79F022012F43DBF23CB479D6560437265815/jb-3gihKswR/procursus/Library/LookinLoader/LookinServer";
+    @autoreleasepool {
 
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+        NSArray *possibleLibraryPaths = @[
+            @"/Library/LookinLoader/LookinServer",
+            @"/private/preboot/E9CC79F022012F43DBF23CB479D6560437265815/jb-3gihKswR/procursus/Library/LookinLoader/LookinServer",
+        ];
 
-    // Skip loading the tweak if the current process is SpringBoard
-    if ([bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
-        NSLog(@"Skipping LookinLoader for SpringBoard");
-        [pool drain];
-        return;
-    }
+        NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
 
-    //if([[prefs objectForKey:[NSString stringWithFormat:@"LookinEnabled-%@", [[NSBundle mainBundle] bundleIdentifier]]] boolValue]) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:libraryPath]){
-            dlopen([libraryPath UTF8String], RTLD_NOW);
-            NSLog(@"LookinLoader loaded %@", libraryPath);
+        // Skip loading the tweak if the current process is SpringBoard
+        if ([bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
+            NSLog(@"LookinLoader(%@): Skipping for SpringBoard", bundleIdentifier);
+            return;
         }
-    //}
-    [pool drain];
+
+        BOOL isLoaded = NO;
+
+        for (NSString *libraryPath in possibleLibraryPaths) {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:libraryPath]){
+                if (dlopen([libraryPath UTF8String], RTLD_NOW)) {
+                    isLoaded = YES;
+                    NSLog(@"LookinLoader(%@): loaded from %@", bundleIdentifier, libraryPath);
+                } else {
+                    char* err = dlerror();
+                    NSLog(@"LookinLoader(%@):[ERROR] failed to load from %@, because of error %s", bundleIdentifier, libraryPath, err);
+                }
+            }
+        }
+
+        if (!isLoaded) {
+            NSLog(@"LookinLoader(%@):[ERROR] LookinServer not found", bundleIdentifier);
+        }
+    }
 }
