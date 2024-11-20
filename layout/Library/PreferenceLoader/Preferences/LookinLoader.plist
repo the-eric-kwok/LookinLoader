@@ -1,47 +1,75 @@
-{
-	entry = {
-		cell = PSLinkCell;
-		label = Lookin;
-		icon = "logo.png";
-		items = (
-			{
-				bundle = AppList;
-				isController = 1;
-				cell = PSLinkCell;
-				label = "Enabled Applications";
-				ALSettingsPath = "/var/mobile/Library/Preferences/com.erickwok.lookinloader.plist";
-				ALSettingsKeyPrefix = "LookinEnabled-";
-				"ALSettingsDefaultValue" = "";
-				ALAllowsSelection = 1;
-				ALSectionDescriptors = (
-					{
-						items = ();
-						"footer-title" = "Select which applications to load Lookin into.";
-					},
-					{
-						title = "User Applications";
-						predicate = "isSystemApplication = FALSE";
-						"icon-size" = 29;
-						"suppress-hidden-apps" = 1;
-						"cell-class-name" = ALSwitchCell;
-					},
-					{
-						title = "System Applications";
-						predicate = "isSystemApplication = TRUE AND NOT (displayIdentifier IN {'com.iptm.bigboss.sbsettings', 'com.booleanmagic.overboard', 'eu.heinelt.ifile'})";
-						"icon-size" = 29;
-						"suppress-hidden-apps" = 1;
-						"cell-class-name" = ALSwitchCell;
-					},
-				);
-			},
-			{
-				cell = PSGroupCell;
-				footerText = "This tweak is not officially supported. For more information about Lookin.app and runtime debugging see https://lookin.work";
-			},
-			{
-				cell = PSGroupCell;
-				footerText = "";
-			},
-		);
-	};
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>entry</key>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Lookin</string>
+			<key>icon</key>
+			<string>logo@2x.png</string>
+			<key>items</key>
+			<array>
+				<dict>
+					<key>bundle</key>
+					<string>AppList</string>
+					<key>isController</key>
+					<integer>1</integer>
+					<key>cell</key>
+					<string>PSLinkCell</string>
+					<key>label</key>
+					<string>在以下应用程序中启用</string>
+					<key>ALSettingsPath</key>
+					<string>/var/mobile/Library/Preferences/com.erickwok.lookinloader.plist</string>
+					<key>ALSettingsKeyPrefix</key>
+					<string>LookinEnabled-</string>
+					<key>ALSettingsDefaultValue</key>
+					<string></string>
+					<key>ALAllowsSelection</key>
+					<integer>1</integer>
+					<key>ALSectionDescriptors</key>
+					<array>
+						<dict>
+							<key>items</key>
+							<array></array>
+							<key>footer-title</key>
+							<string>选择一个应用来注入 LookinLoader</string>
+						</dict>
+						<dict>
+							<key>title</key>
+							<string>用户应用</string>
+							<key>predicate</key>
+							<string>isSystemApplication = FALSE</string>
+							<key>icon-size</key>
+							<integer>29</integer>
+							<key>suppress-hidden-apps</key>
+							<integer>1</integer>
+							<key>cell-class-name</key>
+							<string>ALSwitchCell</string>
+						</dict>
+						<dict>
+							<key>title</key>
+							<string>系统应用</string>
+							<key>predicate</key>
+							<string>isSystemApplication = TRUE AND NOT (displayIdentifier IN {'com.iptm.bigboss.sbsettings', 'com.booleanmagic.overboard', 'eu.heinelt.ifile'})</string>
+							<key>icon-size</key>
+							<integer>29</integer>
+							<key>suppress-hidden-apps</key>
+							<integer>1</integer>
+							<key>cell-class-name</key>
+							<string>ALSwitchCell</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>cell</key>
+					<string>PSGroupCell</string>
+					<key>footerText</key>
+					<string>这个插件不是官方支持的。更多关于 Lookin.app 和运行时调试的信息请访问 https://lookin.work</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+</plist>
